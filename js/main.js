@@ -1,11 +1,3 @@
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomElement(arr) {
-  return arr[getRandomInt(0, arr.length - 1)];
-}
-
 const messages = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -46,22 +38,47 @@ const photoDescriptions = [
   'Праздничные огни на улице'
 ];
 
+const minCommentId = 0;
+const maxCommentId = 500;
+
+const minCountOfMessage = 1;
+const maxCountOfMessage = 2;
+
+const minAvatarId = 1;
+const maxAvatarId = 6;
+
+const countOfPhotoObjects = 25;
+
+const minCountOfLikes = 15;
+const maxCountOfLikes = 200;
+
+const minCountOfComments = 0;
+const maxCountOfComments = 30;
+
 const commentsID = new Set(); // Используем Set для контроля уникальности id комментариев
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomElement(arr) {
+  return arr[getRandomInt(0, arr.length - 1)];
+}
 
 function generateComment() {
   let id;
   do {
-    id = getRandomInt(1, 500); // Случайный id для комментария
+    id = getRandomInt(minCommentId, maxCommentId); // Случайный id для комментария
   } while (commentsID.has(id));
   commentsID.add(id);
 
-  const messageCount = getRandomInt(1, 2);
+  const messageCount = getRandomInt(minCountOfMessage, maxCountOfMessage);
   let message = '';
   for (let j = 0; j < messageCount; j++) {
     message += `${getRandomElement(messages) } `;
   }
 
-  const avatarId = getRandomInt(1, 6);
+  const avatarId = getRandomInt(minAvatarId, maxAvatarId);
   const comment = {
     id,
     avatar: `img/avatar-${avatarId}.svg`,
@@ -74,13 +91,13 @@ function generateComment() {
 
 function generatePhotoObjects() {
   const photoArray = [];
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= countOfPhotoObjects; i++) {
     const photoObject = {
       id: i,
       url: `photos/${i}.jpg`,
       description: photoDescriptions[i - 1],
-      likes: getRandomInt(15, 200),
-      comments: Array.from({ length: getRandomInt(0, 30) }, generateComment)
+      likes: getRandomInt(minCountOfLikes, maxCountOfLikes),
+      comments: Array.from({ length: getRandomInt(minCountOfComments, maxCountOfComments) }, generateComment)
     };
     photoArray.push(photoObject);
   }
