@@ -13,9 +13,9 @@ function meetingFitsInWorkday(startOfDay, endOfDay, meetingStart, meetingDuratio
 }
 
 // Тестируем:
-const startOfDay = '9:00';
-const endOfDay = '17:00';
-const meetingStart = '10:30';
-const meetingDuration = 60; // в минутах
+// const startOfDay = '9:00';
+// const endOfDay = '17:00';
+// const meetingStart = '10:30';
+// const meetingDuration = 60; // в минутах
 
-console.log(meetingFitsInWorkday(startOfDay, endOfDay, meetingStart, meetingDuration)); // true
+//console.log(meetingFitsInWorkday(startOfDay, endOfDay, meetingStart, meetingDuration)); // true
