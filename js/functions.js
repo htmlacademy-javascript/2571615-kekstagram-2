@@ -1,16 +1,16 @@
-function timeToMinutes(timeStr) {
-  const [hours, minutes] = timeStr.split(':').map(Number);
-  return hours * 60 + minutes;
-}
+// function timeToMinutes(timeStr) {
+//   const [hours, minutes] = timeStr.split(':').map(Number);
+//   return hours * 60 + minutes;
+// }
 
-function meetingFitsInWorkday(startOfDay, endOfDay, meetingStart, meetingDuration) {
-  const startDay = timeToMinutes(startOfDay);
-  const endDay = timeToMinutes(endOfDay);
-  const meetingStartTime = timeToMinutes(meetingStart);
-  const meetingEndTime = meetingStartTime + meetingDuration;
+// function meetingFitsInWorkday(startOfDay, endOfDay, meetingStart, meetingDuration) {
+//   const startDay = timeToMinutes(startOfDay);
+//   const endDay = timeToMinutes(endOfDay);
+//   const meetingStartTime = timeToMinutes(meetingStart);
+//   const meetingEndTime = meetingStartTime + meetingDuration;
 
-  return startDay <= meetingStartTime && meetingEndTime <= endDay;
-}
+//   return startDay <= meetingStartTime && meetingEndTime <= endDay;
+// }
 
 // Тестируем:
 // const startOfDay = '9:00';
