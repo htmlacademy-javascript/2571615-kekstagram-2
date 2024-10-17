@@ -1,5 +1,6 @@
 import { generatePhotoObjects } from './photos.js';
+import renderPicturesFromTemplate from './renderPicturesFromTemplate .js';
 
 const photoData = generatePhotoObjects();
 
-console.log(photoData);
+renderPicturesFromTemplate(photoData);
