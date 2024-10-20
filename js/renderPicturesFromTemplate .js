@@ -4,13 +4,20 @@ const renderPicturesFromTemplate = (pictures) => {
   const fragment = document.createDocumentFragment();
 
   // Получаем шаблон
-  const template = document.getElementById('picture').content;
+  const template = document.getElementById('picture').content.querySelector('.picture');
 
-  pictures.forEach(({ url, description, likes, comments }) => {
-    // Клонируем содержимое шаблона
+  pictures.forEach((picture) => {
+
+   //Деструктурируем моковый объект
+  const { url, description, likes, comments } = picture;
+
+// Клонируем содержимое шаблона
     const pictureElement = template.cloneNode(true);
 
-    // Заполняем данными
+// Сериализуем стейт и прокидываем в миниатюру
+    pictureElement.dataset.state = JSON.stringify(picture);
+
+    // Заполняем данными миниатюру
     const img = pictureElement.querySelector('.picture__img');
     img.src = url;
     img.alt = description;
