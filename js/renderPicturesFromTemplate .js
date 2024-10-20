@@ -8,13 +8,13 @@ const renderPicturesFromTemplate = (pictures) => {
 
   pictures.forEach((picture) => {
 
-   //Деструктурируем моковый объект
-  const { url, description, likes, comments } = picture;
+    //Деструктурируем моковый объект
+    const { url, description, likes, comments } = picture;
 
-// Клонируем содержимое шаблона
+    // Клонируем содержимое шаблона
     const pictureElement = template.cloneNode(true);
 
-// Сериализуем стейт и прокидываем в миниатюру
+    // Сериализуем стейт и прокидываем в миниатюру
     pictureElement.dataset.state = JSON.stringify(picture);
 
     // Заполняем данными миниатюру
