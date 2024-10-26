@@ -5,3 +5,7 @@ export function getRandomInt(min, max) {
 export function getRandomElement(arr) {
   return arr[getRandomInt(0, arr.length - 1)];
 }
+
+export function isEscapeKey(event) {
+  return event.key === 'Escape' || event.keyCode === 27;
+}
