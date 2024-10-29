@@ -19,11 +19,11 @@ const closePhotoEditor = () => {
   uploadFileControl.value = '';
 };
 
-const onPhotoEditorResetBtnClick = () => {
+function onPhotoEditorResetBtnClick () {
   closePhotoEditor();
 };
 
-const onDocumentKeyDown = (evt) => {
+function onDocumentKeyDown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 

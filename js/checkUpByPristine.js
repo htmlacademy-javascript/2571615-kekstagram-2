@@ -4,7 +4,7 @@ const errorsByPristineContainer = document.querySelector('.img-upload__field-wra
 
 export default function runCheckUpByPristine() {
 
-  const hashtags = (hashtagInput)=>hashtagInput.trim().split(/\s+/);
+  const hashtags = (hashtagInputString)=>hashtagInputString.trim().split(/\s+/);
 
 
   const hashtagValidators = {
@@ -13,11 +13,11 @@ export default function runCheckUpByPristine() {
         rule: 'startsWithHash',
         errorHashtags: [],
         checkAction: function(){
-          return (hashtagInput)=>{
-            if (!hashtagInput) {
+          return (hashtagInputString)=>{
+            if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInput).filter((hashtag) => !(hashtag.startsWith('#')));
+            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag.startsWith('#')));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -32,11 +32,11 @@ export default function runCheckUpByPristine() {
         rule: 'validCharacters',
         errorHashtags: [],
         checkAction: function() {
-          return (hashtagInput)=>{
-            if (!hashtagInput) {
+          return (hashtagInputString)=>{
+            if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInput).filter((hashtag) => !(/^[#\p{L}\d]+$/u.test(hashtag.slice(1))));
+            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(/^[#\p{L}\d]+$/u.test(hashtag.slice(1))));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -51,11 +51,11 @@ export default function runCheckUpByPristine() {
         rule: 'notOnlyHash',
         errorHashtags: [],
         checkAction: function() {
-          return (hashtagInput)=> {
-            if (!hashtagInput) {
+          return (hashtagInputString)=> {
+            if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInput).filter((hashtag) => !(hashtag !== '#'));
+            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag !== '#'));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -70,11 +70,11 @@ export default function runCheckUpByPristine() {
         rule: 'maxLength',
         errorHashtags: [],
         checkAction: function() {
-          return (hashtagInput)=>{
-            if (!hashtagInput) {
+          return (hashtagInputString)=>{
+            if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInput).filter((hashtag) => !(hashtag.length <= 20));
+            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag.length <= 20));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -89,13 +89,13 @@ export default function runCheckUpByPristine() {
         rule: 'isUnique',
         results: [],
         checkAction: function() {
-          return (hashtagInput)=>{
-            if (!hashtagInput) {
+          return (hashtagInputString)=>{
+            if (!hashtagInputString) {
               return true;
             }
             const uniqueHashtags = new Set();
 
-            for (const hashtag of hashtags(hashtagInput)) {
+            for (const hashtag of hashtags(hashtagInputString)) {
             // Приводим хэштег к нижнему регистру для проверки на уникальность
               const lowerHashtag = hashtag.toLowerCase();
 
@@ -121,11 +121,11 @@ export default function runCheckUpByPristine() {
       {
         rule: 'validateHashtagCount',
         checkAction: function() {
-          return (hashtagInput)=> {
-            if (!hashtagInput) {
+          return (hashtagInputString)=> {
+            if (!hashtagInputString) {
               return true;
             }
-            return hashtags(hashtagInput).length <= 5;
+            return hashtags(hashtagInputString).length <= 5;
           };
         },
         errorText: function() {
