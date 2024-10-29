@@ -90,31 +90,34 @@ export default function runCheckUpByPristine() {
         results: [],
         checkAction: function() {
           return (hashtagInputString)=>{
+            this.results.length = 0;
             if (!hashtagInputString) {
               return true;
             }
             const uniqueHashtags = new Set();
+            const hashtagsArray = hashtags(hashtagInputString);
 
-            for (const hashtag of hashtags(hashtagInputString)) {
-            // Приводим хэштег к нижнему регистру для проверки на уникальность
+            for (const hashtag of hashtagsArray) {
+
               const lowerHashtag = hashtag.toLowerCase();
 
-              // Проверяем на уникальность
+
               if (uniqueHashtags.has(lowerHashtag)) {
                 this.results.push(`Хэштег "${hashtag}" использован дважды.`);
               } else {
                 uniqueHashtags.add(lowerHashtag);
               }
-              if(this.results.length > 0) {
-                return false;
-              }
-              return true;
             }
+            if(this.results.length > 0) {
+              return false;
+            }
+            return true;
           };
         },
 
         errorText: function() {
-          return ()=> `Внимание! Нарушено требование: "один и тот же хэштег не может быть использован дважды". Данный хэштег ${this.results.join(', ')} использован дважды`;
+          return ()=> `Внимание! Нарушено требование: "один и тот же хэштег не может быть использован дважды".
+          ${this.results.join(', ')}`;
         }
       },
 
