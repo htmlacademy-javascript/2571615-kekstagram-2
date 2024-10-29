@@ -66,8 +66,8 @@ export default function openAndCloseBigPicture() {
   };
 
   const onKeyDown = (evt) => {
-    evt.preventDefault();
     if (elements.bigPictureContainer.dataset.isOpen === 'true' && evt.key === 'Escape') {
+      evt.preventDefault();
       closeBigPicture();
     }
   };
