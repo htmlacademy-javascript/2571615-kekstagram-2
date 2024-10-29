@@ -21,7 +21,7 @@ const closePhotoEditor = () => {
 
 function onPhotoEditorResetBtnClick () {
   closePhotoEditor();
-};
+}
 
 function onDocumentKeyDown (evt) {
   if (isEscapeKey(evt)) {
@@ -34,7 +34,7 @@ function onDocumentKeyDown (evt) {
       closePhotoEditor();
     }
   }
-};
+}
 
 // Initialize the upload modal
 export const initUploadModal = () => {
