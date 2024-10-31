@@ -1,7 +1,8 @@
 export default function setupFilters() {
   const imgPreview = document.querySelector('.img-upload__preview img');
   const effectLevelValue = document.querySelector('.effect-level__value');
-  const effectLevelSlider = document.querySelector('.img-upload__effect-level');
+  const effectLevelSliderContainer = document.querySelector('.img-upload__effect-level');
+  const effectLevelSlider = document.querySelector('.effect-level__slider');
   const effectsList = document.querySelectorAll('.effects__radio');
 
   let currentEffectValue;
@@ -23,7 +24,7 @@ export default function setupFilters() {
   }
 
   function hideSliderInitially() {
-    effectLevelSlider.style.display = 'none';
+    effectLevelSliderContainer.style.display = 'none';
   }
 
   function setupEffectChangeHandlers() {
@@ -59,7 +60,7 @@ export default function setupFilters() {
 
   function updateSlider() {
     if (currentEffectValue !== 'none') {
-      effectLevelSlider.style.display = 'block';
+      effectLevelSliderContainer.style.display = 'block';
 
       const sliderOptions = {
         chrome: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
@@ -72,7 +73,7 @@ export default function setupFilters() {
       effectLevelSlider.noUiSlider.updateOptions(sliderOptions[currentEffectValue]);
       currentSliderValue = effectLevelSlider.noUiSlider.options.range.max;
     } else {
-      effectLevelSlider.style.display = 'none';
+      effectLevelSliderContainer.style.display = 'none';
       currentSliderValue = undefined;
     }
   }
