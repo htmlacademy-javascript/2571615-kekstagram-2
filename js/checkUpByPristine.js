@@ -1,6 +1,12 @@
-import { hashtagInput, uploadForm, commentInput } from './uploadPhotoForm';
+import { hashtagInput, uploadForm, commentInput, errorsByPristineContainer } from './constants';
 
-const errorsByPristineContainer = document.querySelector('.img-upload__field-wrapper');
+export const pristine = new Pristine(uploadForm, {
+  classTo: 'img-upload__field-wrapper', // класс родительского элемента
+  errorClass: 'pristine-error', // класс для ошибки
+  errorTextParent: 'img-upload__field-wrapper', // родительский элемент для текста ошибки
+  errorTextTag: 'div', // тег для текста ошибки
+  errorTextClass: 'img-upload__field-wrapper--error', // класс для текста ошибки
+});
 
 export default function runCheckUpByPristine() {
 
@@ -139,23 +145,16 @@ export default function runCheckUpByPristine() {
   };
 
 
-  const pristine = new Pristine(uploadForm, {
-    classTo: 'img-upload__field-wrapper', // класс родительского элемента
-    errorClass: 'pristine-error', // класс для ошибки
-    errorTextParent: 'img-upload__field-wrapper', // родительский элемент для текста ошибки
-    errorTextTag: 'div', // тег для текста ошибки
-    errorTextClass: 'img-upload__field-wrapper--error', // класс для текста ошибки
-  });
-
   hashtagValidators.rules.forEach((ruleObj) => {
     pristine.addValidator(hashtagInput, ruleObj.checkAction(), ruleObj.errorText());
   });
 
   pristine.addValidator(commentInput, (comment)=>comment.length <= 140, 'Длина комментария не должна превышать 140 символов!');
 
-  uploadForm.addEventListener('submit', (evt)=>{
+  uploadForm.addEventListener('submit', ()=>{
     if (errorsByPristineContainer.classList.contains('pristine-error')) {
-      evt.preventDefault();
+      // evt.preventDefault();
     }
   });
+
 }

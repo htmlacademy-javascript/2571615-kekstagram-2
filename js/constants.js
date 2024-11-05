@@ -56,3 +56,12 @@ export const minCountOfComments = 0;
 export const maxCountOfComments = 30;
 
 export const commentsID = new Set();
+
+export const uploadForm = document.querySelector('.img-upload__form');
+export const pageBody = document.querySelector('body');
+export const uploadFileControl = uploadForm.querySelector('#upload-file');
+export const photoEditorForm = uploadForm.querySelector('.img-upload__overlay');
+export const photoEditorResetBtn = photoEditorForm.querySelector('#upload-cancel');
+export const hashtagInput = uploadForm.querySelector('.text__hashtags');
+export const commentInput = uploadForm.querySelector('.text__description');
+export const errorsByPristineContainer = document.querySelector('.img-upload__field-wrapper');
