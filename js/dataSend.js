@@ -66,30 +66,43 @@ function showMessage(type) {
 
   document.body.appendChild(messageElement);
 
-  const closeButton = messageElement.querySelector(`.${type}__button`);
-  closeButton.addEventListener('click', () => removeMessage(messageElement), { once: true });
-
   addEventListeners(messageElement, type);
 }
 
 function addEventListeners(messageElement, type) {
+
+  const closeButton = messageElement.querySelector(`.${type}__button`);
+
+  function removeEventListeners() {
+    closeButton.removeEventListener('click', onCloseButton);
+    document.removeEventListener('keydown', onEsc);
+    document.removeEventListener('click', onOutsideClick);
+  }
+
+  function onCloseButton() {
+    removeMessage(messageElement);
+    removeEventListeners();
+  }
+
   function onEsc (event) {
     if (event.key === 'Escape') {
       removeMessage(messageElement);
-      document.removeEventListener('keydown', onEsc);
-      document.removeEventListener('click', onOutsideClick);
+      removeEventListeners();
     }
   }
 
   function onOutsideClick (event) {
     if (!event.target.closest(`.${type}__inner`)) {
       removeMessage(messageElement);
-      document.removeEventListener('click', onOutsideClick);
-      document.removeEventListener('keydown', onEsc);
+      removeEventListeners();
     }
   }
 
+
+  closeButton.addEventListener('click', onCloseButton);
+
   document.addEventListener('keydown', onEsc);
+
   document.addEventListener('click', onOutsideClick);
 }
 

@@ -25,6 +25,9 @@ function onPhotoEditorResetBtnClick () {
 }
 
 function onDocumentKeyDown (evt) {
+  if(document.querySelector('.error')) {
+    return;
+  } // если в документе присутствует окно об ошибке отправки фотографии - не реагировать на Esc
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 

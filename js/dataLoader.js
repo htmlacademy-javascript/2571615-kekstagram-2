@@ -1,7 +1,19 @@
 import renderPicturesFromTemplate from './renderPicturesFromTemplate ';
+import { filterPictures } from './filterLoadedPhotos';
+import {filters} from './constants';
 
 export async function loadData() {
   const url = 'https://31.javascript.htmlacademy.pro/kekstagram/data';
+
+  function debounce (callback, timeoutDelay = 500) {
+    let timeoutId;
+    return (...rest) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    };
+  }
+
+  const debouncedFilterPictures = debounce(filterPictures);
 
   try {
     const response = await fetch(url);
@@ -10,6 +22,20 @@ export async function loadData() {
     }
     const data = await response.json();
     renderPicturesFromTemplate(data);
+
+    filters.classList.remove('img-filters--inactive');
+
+    const buttons = document.querySelectorAll('.img-filters__button');
+    buttons.forEach((button) => {
+      button.addEventListener('click', function () {
+        ([...buttons]).forEach((item)=>item.classList.remove('img-filters__button--active'));
+        this.classList.add('img-filters__button--active');
+
+        const filterId = this.id;
+        debouncedFilterPictures(data, filterId);
+      });
+    });
+
   } catch (error) {
     displayErrorMessage();
   }

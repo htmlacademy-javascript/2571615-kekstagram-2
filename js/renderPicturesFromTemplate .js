@@ -1,6 +1,13 @@
 const renderPicturesFromTemplate = (pictures) => {
   // Получаем контейнер, в который будем добавлять миниатюры
   const picturesContainer = document.querySelector('.pictures');
+
+  picturesContainer.querySelectorAll('.picture').forEach(
+    (picture) => {
+      picture.remove();
+    }
+  );
+
   const fragment = document.createDocumentFragment();
 
   // Получаем шаблон
