@@ -1,11 +1,10 @@
 import { isEscapeKey } from './utils';
 import { initSendDataForm } from './dataSend';
-import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn } from './constants';
+import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn, userImage } from './constants';
 
 export function resetImagePreview() {
-  const imagePreview = document.querySelector('.img-upload__preview img');
-  if (imagePreview) {
-    imagePreview.style.filter = '';
+  if (userImage) {
+    userImage.style.filter = '';
   }
 }
 
@@ -44,10 +43,12 @@ export const initUploadModal = () => {
 
   initSendDataForm(uploadForm);
 
-  uploadFileControl.addEventListener('change', () => {
+  uploadFileControl.addEventListener('change', function() {
     photoEditorForm.classList.remove('hidden');
     pageBody.classList.add('modal-open');
 
+    const fileURL = URL.createObjectURL(this.files[0]);
+    userImage.src = fileURL;
     photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
     document.addEventListener('keydown', onDocumentKeyDown);
   });
