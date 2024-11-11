@@ -1,6 +1,7 @@
 import { isEscapeKey } from './utils';
-import { initSendDataForm } from './dataSend';
-import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn, userImage } from './constants';
+import { initSendDataForm } from './data-send';
+import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn, userImage, effectsPreviews } from './constants';
+import { escActionsController, openedWindowsController } from './esc-actions-controller';
 
 export function resetImagePreview() {
   if (userImage) {
@@ -13,6 +14,7 @@ export const closePhotoEditor = () => {
   uploadForm.reset();
   resetImagePreview();
   photoEditorForm.classList.add('hidden');
+  openedWindowsController.removeWindowFromState(photoEditorForm);
   pageBody.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeyDown);
@@ -24,9 +26,7 @@ function onPhotoEditorResetBtnClick () {
 }
 
 function onDocumentKeyDown (evt) {
-  if(document.querySelector('.error')) {
-    return;
-  } // если в документе присутствует окно об ошибке отправки фотографии - не реагировать на Esc
+
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 
@@ -34,7 +34,7 @@ function onDocumentKeyDown (evt) {
       evt.stopPropagation();
     } else {
       uploadForm.reset();
-      closePhotoEditor();
+      escActionsController.closeWindow(closePhotoEditor, photoEditorForm);
     }
   }
 }
@@ -45,10 +45,14 @@ export const initUploadModal = () => {
 
   uploadFileControl.addEventListener('change', function() {
     photoEditorForm.classList.remove('hidden');
+    openedWindowsController.pushWindowToState(photoEditorForm);
     pageBody.classList.add('modal-open');
 
     const fileURL = URL.createObjectURL(this.files[0]);
     userImage.src = fileURL;
+    effectsPreviews.forEach((effectsPreview)=>{
+      effectsPreview.style.backgroundImage = `url(${fileURL})`;
+    });
     photoEditorResetBtn.addEventListener('click', onPhotoEditorResetBtnClick);
     document.addEventListener('keydown', onDocumentKeyDown);
   });

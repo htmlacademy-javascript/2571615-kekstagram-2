@@ -1,63 +1,10 @@
-export const messages = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?'
-];
-
-export const names = ['Артём', 'Иван', 'Сергей', 'Дмитрий', 'Екатерина', 'Анна'];
-
-export const photoDescriptions = [
-  'Друзья на пикнике',
-  'Завтрак с любимыми блюдами',
-  'Смешная кошка на диване',
-  'Горы во время заката',
-  'Морской берег с ракушками',
-  'Счастливая семья в парке',
-  'Первый снег зимой',
-  'Кофе и книга в кафе',
-  'Солнце светит на деревья',
-  'Улыбающееся лицо ребенка',
-  'Летний день в саду',
-  'Поездка на велосипеде',
-  'Природа и красивые цветы',
-  'Бег по утреннему парку',
-  'Собаки играют на поляне',
-  'Город в вечерних огнях',
-  'Рыбалка на спокойном озере',
-  'Красивая архитектура старого города',
-  'Уютный вечер у камина',
-  'Путешествие по горным тропам',
-  'Мимолетный момент радости',
-  'Спокойствие в лесу',
-  'Шумный городской рынок',
-  'Смешные моменты с друзьями',
-  'Яркий закат на пляже',
-  'Праздничные огни на улице'
-];
-
-export const minCommentId = 0;
-export const maxCommentId = 500;
-
-export const minCountOfMessage = 1;
-export const maxCountOfMessage = 2;
-
-export const minAvatarId = 1;
-export const maxAvatarId = 6;
-
-export const countOfPhotoObjects = 25;
-
-export const minCountOfLikes = 15;
-export const maxCountOfLikes = 200;
-
-export const minCountOfComments = 0;
-export const maxCountOfComments = 30;
-
-export const commentsID = new Set();
+export const UrlApi = {
+  LOAD_URL: 'https://31.javascript.htmlacademy.pro/kekstagram/data',
+  SEND_URL: 'https://31.javascript.htmlacademy.pro/kekstagram'
+};
 
 export const uploadForm = document.querySelector('.img-upload__form');
+export const submitButton = uploadForm.querySelector('#upload-submit');
 export const pageBody = document.querySelector('body');
 export const uploadFileControl = uploadForm.querySelector('#upload-file');
 export const photoEditorForm = uploadForm.querySelector('.img-upload__overlay');
@@ -67,3 +14,32 @@ export const commentInput = uploadForm.querySelector('.text__description');
 export const errorsByPristineContainer = document.querySelector('.img-upload__field-wrapper');
 export const filters = document.querySelector('.img-filters');
 export const userImage = document.querySelector('.img-upload__preview>img');
+export const effectsPreviews = document.querySelectorAll('.effects__preview');
+export const picturesContainer = document.querySelector('.pictures');
+export const bigPictureContainer = document.querySelector('.big-picture');
+export const bigPicture = document.querySelector('.big-picture__img img');
+export const likesCounter = document.querySelector('.likes-count');
+export const socialCommentTotalCounter = document.querySelector('.social__comment-total-count');
+export const socialCommentShownCounter = document.querySelector('.social__comment-shown-count');
+export const commentsContainer = document.querySelector('.social__comments');
+export const bigPictureDescription = document.querySelector('.social__caption');
+export const cancelButton = document.querySelector('#picture-cancel');
+export const commentsLoaderButton = document.querySelector('.social__comments-loader.comments-loader');
+export const smallerButton = document.querySelector('.scale__control--smaller');
+export const biggerButton = document.querySelector('.scale__control--bigger');
+export const scaleValueInput = document.querySelector('.scale__control--value');
+export const previewImage = document.querySelector('.img-upload__preview img');
+export const defaultActiveFilterButton = document.querySelector('#filter-default');
+
+export const MAX_HASHTAG_LENGTH = 20;
+export const MAX_HASHTAG_COUNT = 5;
+export const MAX_COMMENT_LENGTH = 140;
+export const TIME_OF_ERROR_MESSAGE_DELETE = 5000;
+
+export const SCALE_STEP = 25;
+export const MIN_SCALE = 25;
+export const MAX_SCALE = 100;
+
+export const MAX_COMMENTS_COUNT_TO_ADD = 5;
+
+export const DEBOUNCE_TIME = 500;

@@ -1,16 +1,16 @@
-import { hashtagInput, uploadForm, commentInput, errorsByPristineContainer } from './constants';
+import { hashtagInput, uploadForm, commentInput, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT, MAX_COMMENT_LENGTH } from './constants';
 
 export const pristine = new Pristine(uploadForm, {
-  classTo: 'img-upload__field-wrapper', // класс родительского элемента
-  errorClass: 'pristine-error', // класс для ошибки
-  errorTextParent: 'img-upload__field-wrapper', // родительский элемент для текста ошибки
-  errorTextTag: 'div', // тег для текста ошибки
-  errorTextClass: 'img-upload__field-wrapper--error', // класс для текста ошибки
+  classTo: 'img-upload__field-wrapper',
+  errorClass: 'pristine-error',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextTag: 'div',
+  errorTextClass: 'img-upload__field-wrapper--error',
 });
 
 export default function runCheckUpByPristine() {
 
-  const hashtags = (hashtagInputString)=>hashtagInputString.trim().split(/\s+/);
+  const getHashtags = (hashtagInputString)=>hashtagInputString.trim().split(/\s+/);
 
 
   const hashtagValidators = {
@@ -23,7 +23,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag.startsWith('#')));
+            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => !(hashtag.startsWith('#')));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -42,7 +42,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(/^[#\p{L}\d]+$/u.test(hashtag.slice(1))));
+            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => !(/^[#\p{L}\d]+$/u.test(hashtag.slice(1))));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -61,7 +61,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag !== '#'));
+            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => (hashtag === '#'));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -80,7 +80,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = hashtags(hashtagInputString).filter((hashtag) => !(hashtag.length <= 20));
+            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => !(hashtag.length <= MAX_HASHTAG_LENGTH));
             if(this.errorHashtags.length > 0) {
               return false;
             }
@@ -101,7 +101,7 @@ export default function runCheckUpByPristine() {
               return true;
             }
             const uniqueHashtags = new Set();
-            const hashtagsArray = hashtags(hashtagInputString);
+            const hashtagsArray = getHashtags(hashtagInputString);
 
             for (const hashtag of hashtagsArray) {
 
@@ -134,7 +134,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            return hashtags(hashtagInputString).length <= 5;
+            return getHashtags(hashtagInputString).length <= MAX_HASHTAG_COUNT;
           };
         },
         errorText: function() {
@@ -149,12 +149,6 @@ export default function runCheckUpByPristine() {
     pristine.addValidator(hashtagInput, ruleObj.checkAction(), ruleObj.errorText());
   });
 
-  pristine.addValidator(commentInput, (comment)=>comment.length <= 140, 'Длина комментария не должна превышать 140 символов!');
-
-  uploadForm.addEventListener('submit', ()=>{
-    if (errorsByPristineContainer.classList.contains('pristine-error')) {
-      // evt.preventDefault();
-    }
-  });
+  pristine.addValidator(commentInput, (comment)=>comment.length <= MAX_COMMENT_LENGTH, 'Длина комментария не должна превышать 140 символов!');
 
 }

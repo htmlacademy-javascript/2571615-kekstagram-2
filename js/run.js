@@ -1,9 +1,9 @@
-import openAndCloseBigPicture from './openAndCloseBigPicture.js';
-import { initUploadModal } from './uploadPhotoForm.js';
-import runCheckUpByPristine from './checkUpByPristine.js';
-import makeImageScale from './imageScaleControllers.js';
-import setupFilters from './setupFilters.js';
-import {loadData} from './dataLoader.js';
+import openAndCloseBigPicture from './open-and-close-big-picture.js';
+import { initUploadModal } from './upload-photo-form.js';
+import runCheckUpByPristine from './check-up-by-pristine.js';
+import makeImageScale from './image-scale-controllers.js';
+import setupFilters from './setup-filters.js';
+import {loadData} from './data-loader.js';
 
 export function run() {
 
