@@ -5,8 +5,8 @@ export default function setupFilters() {
   const effectLevelSlider = document.querySelector('.effect-level__slider');
   const effectsList = document.querySelectorAll('.effects__radio');
 
-  let currentEffectValue;
-  let currentSliderValue;
+  let currentEffectValue = 'none';
+  let currentSliderValue = 0;
 
   function initializeSlider() {
     noUiSlider.create(effectLevelSlider, {
@@ -17,8 +17,8 @@ export default function setupFilters() {
     });
 
     effectLevelSlider.noUiSlider.on('update', (value) => {
-      currentSliderValue = value;
-      effectLevelValue.value = currentSliderValue;
+      currentSliderValue = +value;
+      effectLevelValue.value = +(currentSliderValue.toFixed(1));
       updateEffect();
     });
   }
@@ -33,7 +33,7 @@ export default function setupFilters() {
         if (effect.checked) {
           currentEffectValue = effect.value;
           updateSlider();
-          effectLevelValue.value = currentSliderValue;
+          effectLevelValue.value = +(currentSliderValue.toFixed(1));
           updateEffect();
         }
       });
@@ -74,7 +74,7 @@ export default function setupFilters() {
       currentSliderValue = effectLevelSlider.noUiSlider.options.range.max;
     } else {
       effectLevelSliderContainer.style.display = 'none';
-      currentSliderValue = undefined;
+      currentSliderValue = 0;
     }
   }
 }

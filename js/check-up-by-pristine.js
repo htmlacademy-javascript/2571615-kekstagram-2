@@ -61,7 +61,7 @@ export default function runCheckUpByPristine() {
             if (!hashtagInputString) {
               return true;
             }
-            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => (hashtag === '#'));
+            this.errorHashtags = getHashtags(hashtagInputString).filter((hashtag) => (/^#+$/.test(hashtag)));
             if(this.errorHashtags.length > 0) {
               return false;
             }
