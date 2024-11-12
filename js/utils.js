@@ -1,11 +1,13 @@
-export function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function getRandomElement(arr) {
-  return arr[getRandomInt(0, arr.length - 1)];
-}
+import { DEBOUNCE_TIME } from './constants';
 
 export function isEscapeKey(event) {
   return event.key === 'Escape' || event.keyCode === 27;
+}
+
+export function debounce (callback, timeoutDelay = DEBOUNCE_TIME) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 }
