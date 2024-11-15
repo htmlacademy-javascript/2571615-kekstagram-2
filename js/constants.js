@@ -30,11 +30,23 @@ export const biggerButton = document.querySelector('.scale__control--bigger');
 export const scaleValueInput = document.querySelector('.scale__control--value');
 export const previewImage = document.querySelector('.img-upload__preview img');
 export const defaultActiveFilterButton = document.querySelector('#filter-default');
+export const effectLevelSliderContainer = document.querySelector('.img-upload__effect-level');
+export const effectLevelSlider = document.querySelector('.effect-level__slider');
+export const effectLevelValue = document.querySelector('.effect-level__value');
+export const effectsList = document.querySelectorAll('.effects__radio');
+export const imgPreview = document.querySelector('.img-upload__preview img');
 
 export const MAX_HASHTAG_LENGTH = 20;
 export const MAX_HASHTAG_COUNT = 5;
 export const MAX_COMMENT_LENGTH = 140;
 export const TIME_OF_ERROR_MESSAGE_DELETE = 5000;
+
+export const DEFAULT_NO_UI_SLIDER_SETTINGS = {
+  range: { min: 0, max: 1 },
+  start: 1,
+  step: 0.1,
+  connect: 'lower'
+};
 
 export const SCALE_STEP = 25;
 export const MIN_SCALE = 25;

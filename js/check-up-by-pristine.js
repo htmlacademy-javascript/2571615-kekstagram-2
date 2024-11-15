@@ -8,7 +8,7 @@ export const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-export default function runCheckUpByPristine() {
+export const runCheckUpByPristine = () => {
 
   const getHashtags = (hashtagInputString)=>hashtagInputString.trim().split(/\s+/);
 
@@ -18,7 +18,7 @@ export default function runCheckUpByPristine() {
       {
         rule: 'startsWithHash',
         errorHashtags: [],
-        checkAction: function(){
+        checkAction: function(){ //Здесь и дальше нужно прокидывать замыкание this  в возвращаемую стрелку, поэтому используем объявление через function
           return (hashtagInputString)=>{
             if (!hashtagInputString) {
               return true;
@@ -30,7 +30,7 @@ export default function runCheckUpByPristine() {
             return true;
           };
         },
-        errorText: function() {
+        getErrorText: function() {
           return ()=>`Внимание! Нарушено требование: "Хэштег должен начинаться с символа # (решётка)." Допущены ошибки в тегах: ${this.errorHashtags.join(', ')}`;
         }
       },
@@ -49,7 +49,7 @@ export default function runCheckUpByPristine() {
             return true;
           };
         },
-        errorText: function() {
+        getErrorText: function() {
           return ()=>`Внимание! Нарушено требование: "Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т.д.".  Допущены ошибки в тегах: ${this.errorHashtags.join(', ')}`;
         }
       },
@@ -68,7 +68,7 @@ export default function runCheckUpByPristine() {
             return true;
           };
         },
-        errorText: function() {
+        getErrorText: function() {
           return ()=>`Внимание! Нарушено требование: "Хеш-тег не может состоять только из одной решётки". Допущены ошибки в тегах: ${this.errorHashtags.join(', ')}`;
         }
       },
@@ -87,7 +87,7 @@ export default function runCheckUpByPristine() {
             return true;
           };
         },
-        errorText: function() {
+        getErrorText: function() {
           return ()=>`Внимание! Нарушено требование: "Максимальная длина одного хэштега - 20 символов, включая решётку". Допущены ошибки в тегах: ${this.errorHashtags.join(', ')}`;
         }
       },
@@ -121,7 +121,7 @@ export default function runCheckUpByPristine() {
           };
         },
 
-        errorText: function() {
+        getErrorText: function() {
           return ()=> `Внимание! Нарушено требование: "один и тот же хэштег не может быть использован дважды".
           ${this.results.join(', ')}`;
         }
@@ -137,7 +137,7 @@ export default function runCheckUpByPristine() {
             return getHashtags(hashtagInputString).length <= MAX_HASHTAG_COUNT;
           };
         },
-        errorText: function() {
+        getErrorText: function() {
           return ()=>'Внимание! Нарушено требование: "Нельзя указать больше пяти хэштегов!';
         }
       }
@@ -146,7 +146,7 @@ export default function runCheckUpByPristine() {
 
 
   hashtagValidators.rules.forEach((ruleObj) => {
-    pristine.addValidator(hashtagInput, ruleObj.checkAction(), ruleObj.errorText());
+    pristine.addValidator(hashtagInput, ruleObj.checkAction(), ruleObj.getErrorText());
   });
 
   pristine.addValidator(commentInput, (comment)=>comment.length <= MAX_COMMENT_LENGTH, 'Длина комментария не должна превышать 140 символов!');
