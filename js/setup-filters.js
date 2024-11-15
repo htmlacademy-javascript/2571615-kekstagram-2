@@ -1,50 +1,14 @@
-export default function setupFilters() {
-  const imgPreview = document.querySelector('.img-upload__preview img');
-  const effectLevelValue = document.querySelector('.effect-level__value');
-  const effectLevelSliderContainer = document.querySelector('.img-upload__effect-level');
-  const effectLevelSlider = document.querySelector('.effect-level__slider');
-  const effectsList = document.querySelectorAll('.effects__radio');
+import {DEFAULT_NO_UI_SLIDER_SETTINGS, effectLevelSlider, imgPreview, effectLevelValue, effectLevelSliderContainer, effectsList} from './constants';
+
+noUiSlider.create(effectLevelSlider, DEFAULT_NO_UI_SLIDER_SETTINGS);
+export const slider = effectLevelSlider.noUiSlider;
+
+export const setupFilters = () => {
 
   let currentEffectValue = 'none';
   let currentSliderValue = 0;
 
-  function initializeSlider() {
-    noUiSlider.create(effectLevelSlider, {
-      range: { min: 0, max: 1 },
-      start: 1,
-      step: 0.1,
-      connect: 'lower'
-    });
-
-    effectLevelSlider.noUiSlider.on('update', (value) => {
-      currentSliderValue = +value;
-      effectLevelValue.value = +(currentSliderValue.toFixed(1));
-      updateEffect();
-    });
-  }
-
-  function hideSliderInitially() {
-    effectLevelSliderContainer.style.display = 'none';
-  }
-
-  function setupEffectChangeHandlers() {
-    effectsList.forEach((effect) => {
-      effect.addEventListener('change', () => {
-        if (effect.checked) {
-          currentEffectValue = effect.value;
-          updateSlider();
-          effectLevelValue.value = +(currentSliderValue.toFixed(1));
-          updateEffect();
-        }
-      });
-    });
-  }
-
-  initializeSlider();
-  hideSliderInitially();
-  setupEffectChangeHandlers();
-
-  function updateEffect() {
+  const updateEffect = () => {
 
     const effectMap = {
       chrome: `grayscale(${currentSliderValue})`,
@@ -56,9 +20,9 @@ export default function setupFilters() {
     };
 
     imgPreview.style.filter = effectMap[currentEffectValue];
-  }
+  };
 
-  function updateSlider() {
+  const updateSlider = () => {
     if (currentEffectValue !== 'none') {
       effectLevelSliderContainer.style.display = 'block';
 
@@ -70,11 +34,40 @@ export default function setupFilters() {
         heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 }
       };
 
-      effectLevelSlider.noUiSlider.updateOptions(sliderOptions[currentEffectValue]);
-      currentSliderValue = effectLevelSlider.noUiSlider.options.range.max;
+      slider.updateOptions(sliderOptions[currentEffectValue]);
+      currentSliderValue = slider.options.range.max;
     } else {
       effectLevelSliderContainer.style.display = 'none';
       currentSliderValue = 0;
     }
-  }
-}
+  };
+
+  const initializeSlider = () => {
+    slider.on('update', (value) => {
+      currentSliderValue = +value;
+      effectLevelValue.value = +(currentSliderValue.toFixed(1));
+      updateEffect();
+    });
+  };
+
+  const hideSliderInitially = () => {
+    effectLevelSliderContainer.style.display = 'none';
+  };
+
+  const setupEffectChangeHandlers = () => {
+    effectsList.forEach((effect) => {
+      effect.addEventListener('change', () => {
+        if (effect.checked) {
+          currentEffectValue = effect.value;
+          updateSlider();
+          effectLevelValue.value = +(currentSliderValue.toFixed(1));
+          updateEffect();
+        }
+      });
+    });
+  };
+
+  initializeSlider();
+  hideSliderInitially();
+  setupEffectChangeHandlers();
+};

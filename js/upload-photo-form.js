@@ -1,13 +1,17 @@
 import { isEscapeKey } from './utils';
 import { initSendDataForm } from './data-send';
-import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn, userImage, effectsPreviews } from './constants';
+import { uploadForm, pageBody, hashtagInput, commentInput, uploadFileControl, photoEditorForm, photoEditorResetBtn, userImage, effectsPreviews, effectLevelSliderContainer, previewImage, DEFAULT_NO_UI_SLIDER_SETTINGS } from './constants';
+import { slider } from './setup-filters';
 import { escActionsController, openedWindowsController } from './esc-actions-controller';
 
-export function resetImagePreview() {
+export const resetImagePreview = () => {
   if (userImage) {
+    slider.updateOptions(DEFAULT_NO_UI_SLIDER_SETTINGS);
     userImage.style.filter = '';
+    previewImage.style.transform = `scale(${1})`;
+    effectLevelSliderContainer.style.display = 'none';
   }
-}
+};
 
 export const closePhotoEditor = () => {
   uploadFileControl.value = '';
@@ -21,11 +25,11 @@ export const closePhotoEditor = () => {
   photoEditorResetBtn.removeEventListener('click', onPhotoEditorResetBtnClick);
 };
 
-function onPhotoEditorResetBtnClick () {
+function onPhotoEditorResetBtnClick () { //здесь function, потому что нужно всплытие, если сделать стрелкой и переместить вверх, то потребуется всплытие closePhotoEditor
   closePhotoEditor();
 }
 
-function onDocumentKeyDown (evt) {
+function onDocumentKeyDown (evt) { // то же самое - если сделать стрелку и перенести вверх, то будет нужно всплытие closePhotoEditor
 
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -43,7 +47,7 @@ export const initUploadModal = () => {
 
   initSendDataForm(uploadForm);
 
-  uploadFileControl.addEventListener('change', function() {
+  uploadFileControl.addEventListener('change', function() {// Здесь работаем с this, поэтому function
     photoEditorForm.classList.remove('hidden');
     openedWindowsController.pushWindowToState(photoEditorForm);
     pageBody.classList.add('modal-open');

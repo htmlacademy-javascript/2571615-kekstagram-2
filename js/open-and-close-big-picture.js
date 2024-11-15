@@ -2,19 +2,36 @@ import { picturesContainer, bigPictureContainer, bigPicture, likesCounter, socia
 import { isEscapeKey } from './utils';
 import { escActionsController, openedWindowsController } from './esc-actions-controller';
 
-export default function openAndCloseBigPicture() {
+export const openAndCloseBigPicture = () => {
 
   let stateOfBigPicture = null;
   let commentsTotalCount = 0;
   let commentsShownCount = 0;
 
-  const renderComments = (comments, count) =>
-    comments.slice(0, count).map(({ avatar, message, name }) => `
-      <li class="social__comment">
-        <img class="social__picture" src="${avatar}" alt="${name}" width="35" height="35">
-        <p class="social__text">${message}</p>
-      </li>
-    `).join('');
+  const renderComments = (comments, count) => {
+
+    const fragment = document.createDocumentFragment();
+
+    comments.slice(0, count).forEach(({ avatar, message, name }) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('social__comment');
+      const img = document.createElement('img');
+      img.classList.add('social__picture');
+      img.src = avatar;
+      img.alt = name;
+      img.width = 35;
+      img.height = 35;
+      const paragraph = document.createElement('p');
+      paragraph.classList.add('social__text');
+      paragraph.textContent = message;
+      listItem.appendChild(img);
+      listItem.appendChild(paragraph);
+      fragment.appendChild(listItem);
+    });
+
+    return fragment;
+  };
+
 
   const updateCommentsLoaderVisibility = () => {
     commentsLoaderButton.classList.toggle('hidden', commentsShownCount === commentsTotalCount);
@@ -28,9 +45,9 @@ export default function openAndCloseBigPicture() {
 
     commentsShownCount = Math.min(commentsTotalCount, MAX_COMMENTS_COUNT_TO_ADD);
     socialCommentShownCounter.textContent = commentsShownCount;
-    commentsContainer.innerHTML = renderComments(pictureData.comments, commentsShownCount);
+    commentsContainer.innerHTML = '';
+    commentsContainer.appendChild(renderComments(pictureData.comments, commentsShownCount));
     updateCommentsLoaderVisibility();
-
     bigPictureDescription.textContent = pictureData.description;
     bigPictureContainer.classList.remove('hidden');
     openedWindowsController.pushWindowToState(bigPictureContainer);
@@ -68,7 +85,8 @@ export default function openAndCloseBigPicture() {
   const onCommentsLoaderClick = () => {
     const remainingComments = commentsTotalCount - commentsShownCount;
     commentsShownCount += Math.min(remainingComments, MAX_COMMENTS_COUNT_TO_ADD);
-    commentsContainer.innerHTML = renderComments(stateOfBigPicture.comments, commentsShownCount);
+    commentsContainer.innerHTML = '';
+    commentsContainer.appendChild(renderComments(stateOfBigPicture.comments, commentsShownCount));
     socialCommentShownCounter.textContent = commentsShownCount;
     updateCommentsLoaderVisibility();
   };
@@ -77,4 +95,4 @@ export default function openAndCloseBigPicture() {
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onKeyDown);
   commentsLoaderButton.addEventListener('click', onCommentsLoaderClick);
-}
+};

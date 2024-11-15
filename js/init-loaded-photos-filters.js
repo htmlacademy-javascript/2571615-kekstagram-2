@@ -3,23 +3,23 @@ import { debounce } from './utils';
 import { filters, defaultActiveFilterButton } from './constants';
 
 const stateOfSortedPhotos = {
-  'filter-default': { photoArr: [], isSorted: false },
-  'filter-random': { photoArr: [], isSorted: false },
-  'filter-discussed': { photoArr: [], isSorted: false },
+  'filter-default': { sortedPhotos: [], isSorted: false },
+  'filter-random': { sortedPhotos: [], isSorted: false },
+  'filter-discussed': { sortedPhotos: [], isSorted: false },
 };
 
-function handleDefaultFilter(data, filterKey) {
+const handleDefaultFilter = (data, filterKey) => {
   const filterState = stateOfSortedPhotos[filterKey];
 
   if (!filterState.isSorted) {
-    filterState.photoArr = data;
+    filterState.sortedPhotos = data;
     filterState.isSorted = true;
   }
 
-  renderPicturesFromTemplate(filterState.photoArr);
-}
+  renderPicturesFromTemplate(filterState.sortedPhotos);
+};
 
-function handleRandomFilter(uniqueItems, filterKey) {
+const handleRandomFilter = (uniqueItems, filterKey) => {
   const filteredData = [];
   const filterState = stateOfSortedPhotos[filterKey];
 
@@ -29,23 +29,23 @@ function handleRandomFilter(uniqueItems, filterKey) {
     uniqueItems.splice(randomIndex, 1);
   }
 
-  filterState.photoArr = filteredData;
-  renderPicturesFromTemplate(filterState.photoArr);
-}
+  filterState.sortedPhotos = filteredData;
+  renderPicturesFromTemplate(filterState.sortedPhotos);
+};
 
-function handleDiscussedFilter(data, filterKey) {
+const handleDiscussedFilter = (data, filterKey) => {
   const filterState = stateOfSortedPhotos[filterKey];
 
   if (!filterState.isSorted) {
-    filterState.photoArr = data.slice().sort((a, b) => b.comments.length - a.comments.length);
+    filterState.sortedPhotos = data.slice().sort((a, b) => b.comments.length - a.comments.length);
     filterState.isSorted = true;
   }
 
-  renderPicturesFromTemplate(filterState.photoArr);
-}
+  renderPicturesFromTemplate(filterState.sortedPhotos);
+};
 
 
-function filterPictures(data, filterId) {
+const filterPictures = (data, filterId) => {
   const uniqueItems = [...new Set(data)];
 
   switch (filterId) {
@@ -64,16 +64,16 @@ function filterPictures(data, filterId) {
     default:
       renderPicturesFromTemplate(data);
   }
-}
+};
 
 const debouncedFilterPictures = debounce(filterPictures);
 
-export function initFilters (data) {
+export const initFilters = (data) => {
   filters.classList.remove('img-filters--inactive');
   const buttons = document.querySelectorAll('.img-filters__button');
   let activeFilter = defaultActiveFilterButton;
   buttons.forEach((button) => {
-    button.addEventListener('click', function () {
+    button.addEventListener('click', function () { // Здесь function, а не стрелка, потому что код работает с this
       activeFilter.classList.remove('img-filters__button--active');
       activeFilter = this;
       this.classList.add('img-filters__button--active');
@@ -81,4 +81,4 @@ export function initFilters (data) {
       debouncedFilterPictures(data, filterId);
     });
   });
-}
+};
