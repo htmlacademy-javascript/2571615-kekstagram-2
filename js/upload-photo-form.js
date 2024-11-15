@@ -11,7 +11,7 @@ export const resetImagePreview = () => {
     previewImage.style.transform = `scale(${1})`;
     effectLevelSliderContainer.style.display = 'none';
   }
-}
+};
 
 export const closePhotoEditor = () => {
   uploadFileControl.value = '';

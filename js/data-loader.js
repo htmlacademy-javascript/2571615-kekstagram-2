@@ -12,7 +12,7 @@ const displayErrorMessage = () => {
   setTimeout(() => {
     document.body.removeChild(errorSection);
   }, TIME_OF_ERROR_MESSAGE_DELETE);
-}
+};
 
 
 export const loadData = async () => {
@@ -31,6 +31,6 @@ export const loadData = async () => {
   } catch (error) {
     displayErrorMessage();
   }
-}
+};
 
 

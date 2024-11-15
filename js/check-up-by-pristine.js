@@ -151,4 +151,4 @@ export const runCheckUpByPristine = () => {
 
   pristine.addValidator(commentInput, (comment)=>comment.length <= MAX_COMMENT_LENGTH, 'Длина комментария не должна превышать 140 символов!');
 
-}
+};
